@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
 }
 
 class NewsPage extends StatefulWidget {
-  const NewsPage({ super.key });
+  const NewsPage({super.key});
 
   @override
   State<NewsPage> createState() => _NewsPageState();
@@ -62,9 +62,7 @@ class _NewsPageState extends State<NewsPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-      NewsBloc()
-        ..add(NewsGet(0)),
+      create: (context) => NewsBloc()..add(NewsGet(0)),
       child: BlocConsumer<NewsBloc, NewsState>(
         listener: (context, state) {
           // TODO: implement listener
@@ -82,7 +80,7 @@ class _NewsPageState extends State<NewsPage> {
           return Scaffold(
             backgroundColor: Colors.white,
             appBar: AppBar(
-              backgroundColor: Colors.purple,
+              backgroundColor: Color(0xFF6563FF),
               title: Text("News update at ${state.pageState.dateTime}"),
             ),
             body: Center(
@@ -104,8 +102,7 @@ class _NewsPageState extends State<NewsPage> {
                                 context
                                     .read<NewsBloc>()
                                     .add(NewsSearchEvent(text));
-                              })
-                      )),
+                              }))),
                   Visibility(
                       visible: !state.pageState.isOffline,
                       child: SizedBox(
@@ -119,12 +116,14 @@ class _NewsPageState extends State<NewsPage> {
                                 padding: const EdgeInsets.all(2.0),
                                 child: GestureDetector(
                                   child: Chip(
-                                    label:
-                                    Text(state.pageState.category[index], style: TextStyle(color: Colors.white),),
+                                    label: Text(
+                                      state.pageState.category[index],
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                                     backgroundColor:
-                                    index == state.pageState.selectedCat
-                                        ? Colors.purple
-                                        : Colors.purple[200],
+                                        index == state.pageState.selectedCat
+                                            ? Color(0xFF6563FF)
+                                            : Color(0xFF9392E5),
                                   ),
                                   onTap: () {
                                     context
@@ -143,52 +142,56 @@ class _NewsPageState extends State<NewsPage> {
                         itemBuilder: (BuildContext context, int index) {
                           return Center(
                               child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    if (results[index].url?.isNotEmpty ??
-                                        false) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                WebViewExample(
-                                                  url: results[index].url ??
-                                                      'https://www.nytimes.com',
-                                                )),
-                                      );
-                                    }
-                                  },
-                                  child: Card(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                      //set border radius more than 50% of height and width to make circle
-                                    ),
-                                    color: Colors.purple,
-                                    child: Column(
-                                      children: [
-                                        Image.network(state.pageState.results[index].multimedia.first.url,
-                                          errorBuilder: (BuildContext context, Object exception,
-                                              StackTrace? stackTrace) {
-                                            return const SizedBox();
-                                          },
-                                        ),
-                                        ListTile(
-                                          title: Text(
-                                            results[index].title ?? '',
-                                            style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                          trailing: SvgPicture.asset(
-                                            fit: BoxFit.scaleDown,
-                                            'assets/angle-right.svg',
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                            padding: const EdgeInsets.all(8.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                if (results[index].url?.isNotEmpty ?? false) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => WebViewExample(
+                                              url: results[index].url ??
+                                                  'https://www.nytimes.com',
+                                            )),
+                                  );
+                                }
+                              },
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  //set border radius more than 50% of height and width to make circle
                                 ),
-                              ));
+                                color: Colors.white,
+                                child: Column(
+                                  children: [
+                                    Image.network(
+                                      state.pageState.results[index].multimedia
+                                          .first.url,
+                                      errorBuilder: (BuildContext context,
+                                          Object exception,
+                                          StackTrace? stackTrace) {
+                                        return const SizedBox();
+                                      },
+                                    ),
+                                    ListTile(
+                                      title: Text(
+                                        results[index].title ?? '',
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: Color(0xFF6563FF),
+                                            fontWeight: FontWeight.bold),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      trailing: SvgPicture.asset(
+                                        'assets/angle-right.svg',
+                                        height: 35,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ));
                         }),
                   )
                 ],
