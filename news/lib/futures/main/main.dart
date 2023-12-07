@@ -42,10 +42,22 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class NewsPage extends StatelessWidget {
-  NewsPage({super.key});
+class NewsPage extends StatefulWidget {
+  const NewsPage({ super.key });
 
+  @override
+  State<NewsPage> createState() => _NewsPageState();
+}
+
+class _NewsPageState extends State<NewsPage> {
   final myController = TextEditingController();
+
+  @override
+  void dispose() {
+    myController.clear();
+    myController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,11 +95,11 @@ class NewsPage extends StatelessWidget {
                           child: TextField(
                               controller: myController,
                               decoration: InputDecoration(
-                                label: Text('Search in local storage'),
+                                  label: Text('Search in local storage'),
                                   prefixIcon: SvgPicture.asset(
                                     fit: BoxFit.scaleDown,
-                                'assets/search.svg',
-                              )),
+                                    'assets/search.svg',
+                                  )),
                               onChanged: (text) {
                                 context
                                     .read<NewsBloc>()
@@ -188,43 +200,3 @@ class NewsPage extends StatelessWidget {
     );
   }
 }
-
-// // Define a custom Form widget.
-// class MyCustomForm extends StatefulWidget {
-//   const MyCustomForm({super.key});
-//
-//   @override
-//   State<MyCustomForm> createState() => _MyCustomFormState();
-// }
-//
-// // Define a corresponding State class.
-// // This class holds data related to the Form.
-// class _MyCustomFormState extends State<MyCustomForm> {
-//   // Create a text controller. Later, use it to retrieve the
-//   // current value of the TextField.
-//
-//   @override
-//   void dispose() {
-//     // Clean up the controller when the widget is removed from the
-//     // widget tree.
-//     myController.dispose();
-//     super.dispose();
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//
-//     return BlocProvider(
-//       create: (context) => NewsBloc(),
-//       child: BlocConsumer<NewsBloc, NewsState>(
-//         listener: (context, state) {
-//           // TODO: implement listener
-//         },
-//         builder: (context, state) {
-//           return
-//         },
-//       ),
-//     );
-//
-//   }
-// }
